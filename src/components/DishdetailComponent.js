@@ -1,8 +1,40 @@
-import React from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle , Breadcrumb, BreadcrumbItem} from 'reactstrap';
+import React, {Component} from 'react';
+import { Card, CardImg, CardText, CardBody, CardTitle , Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader, ModalBody} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 
+    class CommentForm extends Component {
+
+      constructor(props) {
+        super(props);
+        this.state = {
+          isModalOpen: false
+        };
+        this.toggleModal = this.toggleModal.bind(this);
+      }
+
+      toggleModal() {
+        this.setState({
+          isModalOpen: !this.state.isModalOpen
+        });
+      }
+
+      render() {
+        return(
+          <React.Fragment>
+            <Button outline onClick={this.toggleModal}>
+              <span className="fa fa-pencil fa-lg"> Submit Comment  </span>
+            </Button>
+            <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+              <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+              <ModalBody>
+                Body
+              </ModalBody>
+            </Modal>
+          </React.Fragment>
+        )
+      }
+    }
 
     function RenderComments({comments}) {
         const commentsArray = comments.map((data) =>
@@ -18,8 +50,9 @@ import { Link } from 'react-router-dom';
 
         return (
             <div>
-                <h4>Comments</h4>
-                    {commentsArray}
+              <h4>Comments</h4>
+                {commentsArray}
+              <CommentForm/>
             </div>
         );
     }
@@ -69,7 +102,7 @@ import { Link } from 'react-router-dom';
             );
         }
 
-    }
+    };
 
 
 
