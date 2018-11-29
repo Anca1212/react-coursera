@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -100,14 +101,18 @@ const minLength = (len) => (val) => val && (val.length >= len);
 
     function RenderComments({comments, postComment, dishId}) {
         const commentsArray = comments.map((data) =>
+          <Stagger in>
             <div key={data.id}>
+              <Fade in>
                 <ul className="list-unstyled">
                     <li>{data.comment}</li>
                 </ul>
                 <ul className="list-unstyled">
                     <li>-- {data.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(data.date)))}</li>
                 </ul>
+              </Fade>
             </div>
+          </Stagger>
         );
 
         return (
@@ -122,6 +127,11 @@ const minLength = (len) => (val) => val && (val.length >= len);
 
     function RenderDish({dish}) {
         return (
+          <FadeTransform
+            in
+            transformProps={{
+              exitTransform: 'scale(0.5) translateY(-50%)'
+            }}>
             <Card>
                 <CardImg top src={baseUrl + dish.image} alt={dish.name}/>
                 <CardBody>
@@ -129,6 +139,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                     <CardText>{dish.description}</CardText>
                 </CardBody>
             </Card>
+          </FadeTransform>
         );
 
     }
